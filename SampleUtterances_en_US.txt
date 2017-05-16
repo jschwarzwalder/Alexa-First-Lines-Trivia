@@ -1,13 +1,22 @@
-AnswerIntent the answer is {Answer}
-AnswerIntent my answer is {Answer}
-AnswerIntent is it {Answer}
-AnswerIntent {Answer} is my answer
-AnswerIntent {Answer}
-
-AMAZON.StartOverIntent start game
-AMAZON.StartOverIntent new game
-AMAZON.StartOverIntent start
-AMAZON.StartOverIntent start new game
+AnswerIntent the title is {Title}
+AnswerIntent the author is {Author}
+AnswerIntent it is {Title}
+AnswerIntent its by {Author}
+AnswerIntent {Title} is the title
+AnswerIntent {Title} by {Author}
+AnswerIntent the answer is {Title} by {Author}
+AnswerIntent my answer is {Title} by {Author}
+AnswerIntent is it {Title} by {Author}
+AnswerIntent {Title} by {Author} is my answer
+AnswerIntent that is from {Title} by {Author}
+AnswerIntent the book is {Title}
+AnswerIntent {Title} is the book
+AnswerIntent {Author} is the author
+AnswerIntent {Author} is the writer
+AnswerIntent it was written by {Author}
+AnswerIntent {Author} wrote it
+AnswerIntent {Title} is what it is called
+AnswerIntent What is {Title} by {Author}
 
 DontKnowIntent i don't know
 DontKnowIntent don't know
@@ -17,3 +26,8 @@ DontKnowIntent who knows
 DontKnowIntent i don't know this question
 DontKnowIntent i don't know that one
 DontKnowIntent dunno
+
+AMAZON.StartOverIntent start game
+AMAZON.StartOverIntent new game
+AMAZON.StartOverIntent start
+AMAZON.StartOverIntent start new game
