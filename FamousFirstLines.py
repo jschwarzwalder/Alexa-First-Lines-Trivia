@@ -100,6 +100,20 @@ def check_answer(response_title, response_author, session):
         session_speech_output = "This line was from " + correct_title + " by " + correct_author + ". "
         
     return session_speech_output
+    
+def repeat_question(intent, session):
+
+    card_title = intent['name']
+    session_attributes = session['attributes']
+    should_end_session = False
+    
+    
+    # Repeat first line text if RepeatIntent
+    speech_output = session['attributes']['first_line']
+    
+    reprompt_text = "What is this from, and who is the author?"
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
 
 def answer_question(intent, session):
     """ Sets the color in the session and prepares the speech to reply to the
@@ -175,6 +189,11 @@ def on_launch(launch_request, session):
           ", sessionId=" + session['sessionId'])
     # Dispatch to your skill's launch
     return get_welcome_response()
+    # pull in questions
+    # select random question
+    # save text, title, author to session
+    # read first line text
+    
 
 
 def on_intent(intent_request, session):
@@ -185,6 +204,8 @@ def on_intent(intent_request, session):
 
     intent = intent_request['intent']
     intent_name = intent_request['intent']['name']
+    
+    
 
     # Dispatch to your skill's intent handlers
     if intent_name == "AnswerIntent":
