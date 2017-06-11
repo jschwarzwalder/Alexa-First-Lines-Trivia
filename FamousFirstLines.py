@@ -160,15 +160,15 @@ def answer_question(intent, session):
     """
 
     card_title = intent['name']
-    session_attributes = {}
+    session_attributes = session['attributes']
     should_end_session = False
 
-    response_title = session['attributes'].get('reponse_title', None)
-    response_author = session['attributes'].get('reponse_author', None)
-    if 'Title' in intent['slots']:
+    response_title = session['attributes'].get('response_title', None)
+    response_author = session['attributes'].get('response_author', None)
+    if 'value' in intent['slots']['Title']:
         response_title = intent['slots']['Title']['value']
         
-    if 'Author' in intent['slots']:
+    if 'value' in intent['slots']['Author']:
         response_author = intent['slots']['Author']['value']
     
     session_attributes['response_title'] = response_title
@@ -177,19 +177,19 @@ def answer_question(intent, session):
     # No author or title
     if response_title == None and response_author == None:
         speech_output = "I did not hear your response. " \
-                        "Please say my answer is the Title, by the Author."
+                        "Please say my answer is the Title, by the Author. "
         reprompt_text = "I'm sorry, I still can't hear you. " \
                         "Please say my answer is the Title, by the Author."
     # Author, but no title
     elif response_title == None:
         speech_output = "You said this was from a book by " + response_author + \
-                        "Please say the title is Title"
+                        ". Please say the title is Title."
         reprompt_text = "If you know the title please say " \
                         "The title is Title, if not, say I don't know"
     # Title, but no author
     elif response_author == None:
         speech_output = "You said this was from " + response_title + \
-                        "Please say it is by Author."
+                        ". Please say it is by Author."
         reprompt_text = "If you know the author please say " \
                         "The author is author, if not, say I don't know."
     # Title and author
