@@ -49,21 +49,29 @@ def select_question():
     """
 
     session_attributes = {}
-    card_title = "First Line"
+    #card_title = "First Line"
+    
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me your favorite color by saying, " \
-                    "my favorite color is red."
-                    
+    
     # select random question
     # save text, title, author to session
-    # read first line text
     
-    should_end_session = False
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-
-
+    session_attributes['first_line'] = "It was the best of times, it was the worst of times"
+    session_attributes['correct_title'] = "A Tale of two cities"
+    session_attributes['correct_title'] = "Charles Dickens"
+     
+    return session_attributes
+    
+   
+def help_prompt():
+    speech_output = "Welcome to the Famous First Lines Trivia. " \
+                    "I will read you the first line from a book or poem." \
+                    "Tell me the title and author, and I'll let you know if you got it right" \
+                    "Say repeat to hear the line again, or I don't know to hear the answer"
+                        
+    return speech_output
+    
 def handle_session_end_request():
     card_title = "Session Ended"
     speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
@@ -116,6 +124,22 @@ def repeat_question(intent, session):
     reprompt_text = "What is this from, and who is the author?"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+        
+ def help_intent(intent, session):
+
+    card_title = intent['name']
+    session_attributes = session['attributes']
+    should_end_session = False
+    
+    
+    # Read help text to user
+    speech_output = help_prompt()
+    
+    reprompt_text = session_attributes['first_line']
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+        
+           
 
 def answer_question(intent, session):
     """ Sets the color in the session and prepares the speech to reply to the
@@ -182,19 +206,18 @@ def on_launch(launch_request, session):
     print("on_launch requestId=" + launch_request['requestId'] +
           ", sessionId=" + session['sessionId'])
     # Dispatch to your skill's launch
-    speech_output = "Welcome to the Famous First Lines Trivia. " \
-                        "I will read you the first line from a book or poem." \
-                        "Tell me the title and author, and I'll let you know if you got it right" \
-                        "Say repeat to hear the line again, or I don't know to hear the answer"
+    speech_output = help_prompt()
     # pull in questions
     
     card_title = intent['name']
     session_attributes = select_question()
     should_end_session = False
     
+    # read first line text
     speech_output += session_attributes['first_line']
     
     reprompt_text = "What is this from, and who is the author?"
+     
     
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -222,7 +245,7 @@ def on_intent(intent_request, session):
     elif intent_name == "StartOverIntent":
         return start_over(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
-        return get_welcome_response()
+        return help_intent(intent, session)
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
         return handle_session_end_request()
     else:
