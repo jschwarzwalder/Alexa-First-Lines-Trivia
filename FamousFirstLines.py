@@ -43,20 +43,22 @@ def build_response(session_attributes, speechlet_response):
 
 # --------------- Functions that control the skill's behavior ------------------
 
-def get_welcome_response():
+def select_question():
     """ If we wanted to initialize the session to have some attributes we could
     add those here
     """
 
     session_attributes = {}
-    card_title = "Welcome"
-    speech_output = "Welcome to the Alexa Skills Kit sample. " \
-                    "Please tell me your favorite color by saying, " \
-                    "my favorite color is red"
+    card_title = "First Line"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Please tell me your favorite color by saying, " \
                     "my favorite color is red."
+                    
+    # select random question
+    # save text, title, author to session
+    # read first line text
+    
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -132,15 +134,7 @@ def answer_question(intent, session):
     if 'Author' in intent['slots']:
         response_author = intent['slots']['Author']['value']
     
-    
-        session_attributes = create_favorite_color_attributes(favorite_color)
-        speech_output = "I now know your favorite color is " + \
-                        favorite_color + \
-                        ". You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-        reprompt_text = "You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-                        
+                          
     
     # No author or title
     if response_title == None and response_author == None:
@@ -188,11 +182,22 @@ def on_launch(launch_request, session):
     print("on_launch requestId=" + launch_request['requestId'] +
           ", sessionId=" + session['sessionId'])
     # Dispatch to your skill's launch
-    return get_welcome_response()
+    speech_output = "Welcome to the Famous First Lines Trivia. " \
+                        "I will read you the first line from a book or poem." \
+                        "Tell me the title and author, and I'll let you know if you got it right" \
+                        "Say repeat to hear the line again, or I don't know to hear the answer"
     # pull in questions
-    # select random question
-    # save text, title, author to session
-    # read first line text
+    
+    card_title = intent['name']
+    session_attributes = select_question()
+    should_end_session = False
+    
+    speech_output += session_attributes['first_line']
+    
+    reprompt_text = "What is this from, and who is the author?"
+    
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
     
 
 
