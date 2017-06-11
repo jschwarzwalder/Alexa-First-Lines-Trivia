@@ -59,18 +59,21 @@ def select_question():
     
     session_attributes['first_line'] = "It was the best of times, it was the worst of times"
     session_attributes['correct_title'] = "A Tale of two cities"
-    session_attributes['correct_title'] = "Charles Dickens"
+    session_attributes['correct_author'] = "Charles Dickens"
      
     return session_attributes
     
    
 def help_prompt():
     speech_output = "Welcome to the Famous First Lines Trivia. " \
-                    "I will read you the first line from a book or poem." \
-                    "Tell me the title and author, and I'll let you know if you got it right" \
-                    "Say repeat to hear the line again, or I don't know to hear the answer"
+                    "I will read you the first line from a book or poem. " \
+                    "Tell me the title and author, and I'll let you know if you got it right. " \
+                    "Say repeat to hear the line again, or I don't know to hear the answer. "
                         
     return speech_output
+
+
+
     
 def handle_session_end_request():
     card_title = "Session Ended"
@@ -96,20 +99,30 @@ def check_answer(response_title, response_author, session):
     session_speech_output = ""
     
     if title_is_correct:
-        session_speech_output = "You guessed it was from " + response_title + ". Congratulations, that is correct".
+        session_speech_output = "You guessed it was from " + response_title + ". Congratulations, that is correct"
     elif response_title != None:
         session_speech_output = "You guessed it was from " + response_title + ", but the first line was actually from " + correct_title + ". "
     else:
         session_speech_output = "This line was from " + correct_title + ". "
         
     if author_is_correct:
-        session_speech_output = "You guessed the author was " + response_author + ". Congratulations, that is correct".
+        session_speech_output = "You guessed the author was " + response_author + ". Congratulations, that is correct"
     elif response_author != None:
         session_speech_output = "You guessed the author was " + response_author + ", but actually " + correct_author + " wrote " + correct_title + "."
     else:
         session_speech_output = "This line was from " + correct_title + " by " + correct_author + ". "
         
     return session_speech_output
+    
+def dont_know(intent, session):
+
+    response_author = session['response_author']
+    response_title = session['response_title']
+    
+    
+    check_answer(reponse_title, response_author, session)
+    
+    return build()
     
 def repeat_question(intent, session):
 
@@ -125,7 +138,7 @@ def repeat_question(intent, session):
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
         
- def help_intent(intent, session):
+def help_intent(intent, session):
 
     card_title = intent['name']
     session_attributes = session['attributes']
@@ -181,7 +194,7 @@ def answer_question(intent, session):
     # Title and author
     else:
         speech_output = "You said this was from " + response_title + \
-                        " by " + response_author ". "
+                        " by " + response_author + ". "
         speech_output += check_answer(response_title, response_author, session)
         should_end_session = True
                         
@@ -209,7 +222,7 @@ def on_launch(launch_request, session):
     speech_output = help_prompt()
     # pull in questions
     
-    card_title = intent['name']
+    card_title = "First Line Triva"
     session_attributes = select_question()
     should_end_session = False
     
@@ -268,8 +281,8 @@ def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
     """
-    print("event.session.application.applicationId=" +
-          event['session']['application']['applicationId'])
+    #print("event.session.application.applicationId=" +
+    #      event['session']['application']['applicationId'])
 
     """
     Uncomment this if statement and populate with your skill's application ID to
