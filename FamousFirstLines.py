@@ -163,15 +163,16 @@ def answer_question(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    response_title = session['attributes']['response_title']
-    response_author = session['attributes']['response_author']
+    response_title = session['attributes'].get('reponse_title', None)
+    response_author = session['attributes'].get('reponse_author', None)
     if 'Title' in intent['slots']:
         response_title = intent['slots']['Title']['value']
         
     if 'Author' in intent['slots']:
         response_author = intent['slots']['Author']['value']
     
-                          
+    session_attributes['response_title'] = response_title
+    session_attributes['response_author'] = response_author
     
     # No author or title
     if response_title == None and response_author == None:
@@ -197,6 +198,7 @@ def answer_question(intent, session):
                         " by " + response_author + ". "
         speech_output += check_answer(response_title, response_author, session)
         should_end_session = True
+        reprompt_text = "Say next to get a new line"
                         
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -251,7 +253,7 @@ def on_intent(intent_request, session):
     # Dispatch to your skill's intent handlers
     if intent_name == "AnswerIntent":
         return answer_question(intent, session)
-    elif intent_name == "RepeatIntent":
+    elif intent_name == "AMAZON.RepeatIntent":
         return repeat_question(intent, session)
     elif intent_name == "DontKnowIntent":
         return dont_know(intent, session)
