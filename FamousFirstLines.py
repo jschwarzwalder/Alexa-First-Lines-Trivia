@@ -9,7 +9,6 @@ http://amzn.to/1LGWsLG
 
 from __future__ import print_function
 
-
 # --------------- Helpers that build all of the responses ----------------------
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
@@ -58,8 +57,8 @@ def select_question():
     # save text, title, author to session
     
     session_attributes['first_line'] = "It was the best of times, it was the worst of times"
-    session_attributes['correct_title'] = "A Tale of two cities"
-    session_attributes['correct_author'] = "Charles Dickens"
+    session_attributes['correct_title'] = "A Tale of 2 cities"
+    session_attributes['correct_author'] = "Charles dickens"
      
     return session_attributes
     
@@ -93,24 +92,24 @@ def check_answer(response_title, response_author, session):
     correct_title = session['attributes']['correct_title']
     correct_author = session['attributes']['correct_author']
     
-    title_is_correct = correct_title == response_title
-    author_is_correct = correct_author == response_author
+    title_is_correct = correct_title.lower() == response_title.lower()
+    author_is_correct = correct_author.lower() == response_author.lower()
     
     session_speech_output = ""
     
     if title_is_correct:
-        session_speech_output = "You guessed it was from " + response_title + ". Congratulations, that is correct"
+        session_speech_output = "You guessed it was from " + response_title + ". Congratulations, that is correct. "
     elif response_title != None:
         session_speech_output = "You guessed it was from " + response_title + ", but the first line was actually from " + correct_title + ". "
     else:
         session_speech_output = "This line was from " + correct_title + ". "
         
     if author_is_correct:
-        session_speech_output = "You guessed the author was " + response_author + ". Congratulations, that is correct"
+        session_speech_output += "You guessed the author was " + response_author + ". Congratulations, that is correct. "
     elif response_author != None:
-        session_speech_output = "You guessed the author was " + response_author + ", but actually " + correct_author + " wrote " + correct_title + "."
+        session_speech_output += "You guessed the author was " + response_author + ", but actually " + correct_author + " wrote " + correct_title + "."
     else:
-        session_speech_output = "This line was from " + correct_title + " by " + correct_author + ". "
+        session_speech_output += "This line was from " + correct_title + " by " + correct_author + ". "
         
     return session_speech_output
     
@@ -158,7 +157,6 @@ def answer_question(intent, session):
     """ Sets the color in the session and prepares the speech to reply to the
     user.
     """
-
     card_title = intent['name']
     session_attributes = session['attributes']
     should_end_session = False
@@ -194,9 +192,8 @@ def answer_question(intent, session):
                         "The author is author, if not, say I don't know."
     # Title and author
     else:
-        speech_output = "You said this was from " + response_title + \
-                        " by " + response_author + ". "
-        speech_output += check_answer(response_title, response_author, session)
+        
+        speech_output = check_answer(response_title, response_author, session)
         should_end_session = True
         reprompt_text = "Say next to get a new line"
                         
