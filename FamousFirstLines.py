@@ -224,74 +224,74 @@ def on_launch(launch_request, session):
     
     list_of_questions = [
         {
-            "first_line": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair... "
-            "correct_title": "A Tale of 2 cities"
-            "correct_author": "Charles Dickens"
+            "first_line": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair... ",
+            "correct_title": "A Tale of 2 cities",
+            "correct_author": "Charles Dickens",
         }, 
         {
-            "first_line": "A squat grey building of only 39 floors"
-            "correct_title": "Brave New World"
-            "correct_author": "Aldous Huxley"
+            "first_line": "A squat grey building of only 39 floors",
+            "correct_title": "Brave New World",
+            "correct_author": "Aldous Huxley",
         },
         {
-            "first_line": "I felt a Funeral, in my Brain"
-            "correct_title": "I felt a Funeral, in my Brain"
-            "correct_author": "EMILY DICKINSON"
+            "first_line": "I felt a Funeral, in my Brain",
+            "correct_title": "I felt a Funeral, in my Brain",
+            "correct_author": "EMILY DICKINSON",
         },
         {
-            "first_line": "Two roads diverged in a yellow wood"
-            "correct_title": "The Road Not Taken"
-            "correct_author": "ROBERT FROST"
+            "first_line": "Two roads diverged in a yellow wood",
+            "correct_title": "The Road Not Taken",
+            "correct_author": "ROBERT FROST",
         },
         {
-            "first_line": "Mr. and Mrs. Dursley of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much."
-            "correct_title": "Harry Potter and the Sorcerer's Stone"
-            "correct_author": "J K Rowling"
+            "first_line": "Mr. and Mrs. Dursley of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much.",
+            "correct_title": "Harry Potter and the Sorcerer's Stone",
+            "correct_author": "J K Rowling",
         },
         {
-            "first_line": "The outlook wasn’t brilliant for the Mudville nine that day"
-            "correct_title": "Casey at the Bat"
-            "correct_author": "Ernest Thayer"
+            "first_line": "The outlook wasn't brilliant for the Mudville nine that day",
+            "correct_title": "Casey at the Bat",
+            "correct_author": "Ernest Thayer",
         },
         {
-            "first_line": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."
-            "correct_title": "Pride and Prejudice"
-            "correct_author": "Jane Austen"
+            "first_line": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+            "correct_title": "Pride and Prejudice",
+            "correct_author": "Jane Austen",
         },
         {
-            "first_line": "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. Whenever you feel like criticising any one, he told me, just remember that all the people in this world haven't had the advantages taht you've had."
-            "correct_title": "The Great Gatsby"
-            "correct_author": "F Scott Fitzgerald"
+            "first_line": "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. Whenever you feel like criticising any one, he told me, just remember that all the people in this world haven't had the advantages taht you've had.",
+            "correct_title": "The Great Gatsby",
+            "correct_author": "F Scott Fitzgerald",
         },
         {
-            "first_line": "All children, except one, grow up"
-            "correct_title": "Peter Pan"
-            "correct_author": "J M Barrie"
+            "first_line": "All children, except one, grow up",
+            "correct_title": "Peter Pan",
+            "correct_author": "J M Barrie",
         },
         {
-            "first_line": "Call me Ishmael"
-            "correct_title": "Moby Dick"
-            "correct_author": "Herman Melville"
+            "first_line": "Call me Ishmael",
+            "correct_title": "Moby Dick",
+            "correct_author": "Herman Melville",
         },
         {
-            "first_line": "All happy families are alike; each unhappy family is unhappy in its own way"
-            "correct_title": "Anna Karenina"
-            "correct_author": "Leo Tolstoy"
+            "first_line": "All happy families are alike; each unhappy family is unhappy in its own way",
+            "correct_title": "Anna Karenina",
+            "correct_author": "Leo Tolstoy",
         },
         {
-            "first_line": "It was a bright cold day in April, and the clock were striking thirteen"
-            "correct_title": "1984"
-            "correct_author": "George Orwell"
+            "first_line": "It was a bright cold day in April, and the clock were striking thirteen",
+            "correct_title": "1984",
+            "correct_author": "George Orwell",
         },
         {
-            "first_line": "Two households, both alike in dignity, In fair Verona, where we lay our scene, From ancient grudge break to new mutiny, Where civil blood makes civil hands unclean."
-            "correct_title": "Romeo and Juliet"
-            "correct_author": "William Shakespeare"
+            "first_line": "Two households, both alike in dignity, In fair Verona, where we lay our scene, From ancient grudge break to new mutiny, Where civil blood makes civil hands unclean.",
+            "correct_title": "Romeo and Juliet",
+            "correct_author": "William Shakespeare",
         },
     ]
     
     card_title = "First Line Triva"
-    session_attributes = select_question()
+    session_attributes = select_question(list_of_questions)
     should_end_session = False
     
     # read first line text
