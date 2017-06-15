@@ -42,7 +42,7 @@ def build_response(session_attributes, speechlet_response):
 
 # --------------- Functions that control the skill's behavior ------------------
 
-def select_question():
+def select_question( list_of_questions ):
     """ If we wanted to initialize the session to have some attributes we could
     add those here
     """
@@ -55,6 +55,10 @@ def select_question():
     
     # select random question
     # save text, title, author to session
+    
+    question_index = random.randint(0, len(list_of_questions)-1 )
+    
+    session_attributes = list_of_questions[question_index]
     
     session_attributes['first_line'] = "It was the best of times, it was the worst of times"
     session_attributes['correct_title'] = "A Tale of 2 cities"
