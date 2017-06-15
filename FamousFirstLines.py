@@ -8,6 +8,7 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
+import random
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -68,7 +69,9 @@ def help_prompt():
     speech_output = "Welcome to the Famous First Lines Trivia. " \
                     "I will read you the first line from a book or poem. " \
                     "Tell me the title and author, and I'll let you know if you got it right. " \
-                    "Say repeat to hear the line again, or I don't know to hear the answer. "
+                    "Say repeat to hear the line again, or I don't know to hear the answer. " \
+                    "You can say a phrase like The title is A Cat in the Hat, or It is by Doctor Seuss. " \
+                    "Or you can answer all at once with a phrase like What is The Little Mermaid by Hans Christian Anderson"
                         
     return speech_output
 
@@ -77,8 +80,8 @@ def help_prompt():
     
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
-                    "Have a nice day! "
+    speech_output = "Thank you for playing Famous First Lines. " \
+                    "We hope that you have a good day! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return build_response({}, build_speechlet_response(
@@ -93,8 +96,14 @@ def check_answer(response_title, response_author, session):
     correct_title = session['attributes']['correct_title']
     correct_author = session['attributes']['correct_author']
     
-    title_is_correct = correct_title.lower() == response_title.lower()
-    author_is_correct = correct_author.lower() == response_author.lower()
+    title_is_correct = False
+    author_is_correct = False
+    
+    
+    if response_title != None: 
+        title_is_correct = correct_title.lower() == response_title.lower()
+    if response_author != None:
+        author_is_correct = correct_author.lower() == response_author.lower()
     
     session_speech_output = ""
     
@@ -116,13 +125,20 @@ def check_answer(response_title, response_author, session):
     
 def dont_know(intent, session):
 
-    response_author = session['response_author']
-    response_title = session['response_title']
+    card_title = intent['name']
+    session_attributes = session['attributes']
+
+
+    response_title = session['attributes'].get('response_title', None)
+    response_author = session['attributes'].get('response_author', None)
     
-    
-    check_answer(reponse_title, response_author, session)
-    
-    return build()
+    speech_output = check_answer(response_title, response_author, session)
+    should_end_session = True
+    reprompt_text = "Say next to get a new line"
+                        
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
     
 def repeat_question(intent, session):
 
@@ -219,7 +235,7 @@ def on_launch(launch_request, session):
     print("on_launch requestId=" + launch_request['requestId'] +
           ", sessionId=" + session['sessionId'])
     # Dispatch to your skill's launch
-    speech_output = help_prompt()
+    speech_output = "Welcome. I will read you the first line of a book or poem. Tell me the title and author. "
     # pull in questions
     
     list_of_questions = [
@@ -312,7 +328,7 @@ def on_intent(intent_request, session):
           ", sessionId=" + session['sessionId'])
 
     intent = intent_request['intent']
-    intent_name = intent_request['intent']['name']
+    intent_name = intent_request['intent']['name']                                             
     
     
 
